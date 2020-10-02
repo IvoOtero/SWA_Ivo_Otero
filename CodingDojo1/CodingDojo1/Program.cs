@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Linq.Expressions;
 
 namespace CodingDojo1
@@ -7,10 +8,117 @@ namespace CodingDojo1
     {
         static void Main(string[] args)
         {
+            //intro 
+            Console.WriteLine("Choose a number between 1 and 3: ");
+            int userInput = int.Parse(Console.ReadLine());
 
-            //new Stack
-            Stack<Object> _stack1 = new Stack<Object>();
+            switch (userInput)
+            {
+                case 1:
+                    TestStackOfObects();
+                    break;
 
+                case 2:
+                    TestStackOfInts();
+                    break;
+
+                case 3:
+                    TestStackOfStrings();
+                    break;
+
+                default:
+                    Console.WriteLine("You can´t just write something else, I´m sorry :/");
+                    break;
+            }
+
+        }
+
+        private static void TestStackOfStrings()
+        {
+            //intro
+            Console.WriteLine("Number 2 means that you are testing with a stack of integers (so interesting)!\n");
+
+            //new Stack of any type of Objects
+            Stack<String> stackOfStrings = new Stack<String>();
+
+            //push numbers into the stack
+            stackOfStrings.Push("!!!!");
+            stackOfStrings.Push("implementation");
+            stackOfStrings.Push("Stack");
+            stackOfStrings.Push("to test");
+            stackOfStrings.Push("way");
+            stackOfStrings.Push("great");
+            stackOfStrings.Push("such a");
+            stackOfStrings.Push("Wow,");
+
+            //print
+            Console.WriteLine("FULL STACK IN ORDER:\n");
+            if (stackOfStrings._currentItem != null)
+            {
+                Item<String> tmp = stackOfStrings._currentItem;
+                while (tmp.next != null)
+                {
+                    Console.WriteLine($" -> {tmp.data}");
+                    tmp = tmp.next;
+                }
+                Console.WriteLine($" -> {tmp.data}\n");
+
+            }
+
+            //peek
+            Console.WriteLine($"Peeking.... found the element [{stackOfStrings.Peek()}]\n");
+
+            //pop
+            Console.WriteLine($"Deleting... element [{stackOfStrings.Pop()}] was succesfully deleted!\n");
+
+        }
+
+        private static void TestStackOfInts()
+        {
+            //intro
+            Console.WriteLine("Number 2 means that you are testing with a stack of integers (so interesting)!\n");
+
+            //new Stack of any type of Objects
+            Stack<int> stackOfInts = new Stack<int>();
+
+            //push numbers into the stack
+            stackOfInts.Push(3);
+            stackOfInts.Push(4);
+            stackOfInts.Push(45);
+            stackOfInts.Push(23);
+            stackOfInts.Push(42);
+            stackOfInts.Push(69);
+            stackOfInts.Push(1038338738);
+
+            //print
+            Console.WriteLine("FULL STACK IN ORDER:\n");
+            if (stackOfInts._currentItem != null)
+            {
+                Item<int> tmp = stackOfInts._currentItem;
+                while (tmp.next != null)
+                {
+                    Console.WriteLine($" -> {tmp.data}");
+                    tmp = tmp.next;
+                }
+                Console.WriteLine($" -> {tmp.data}\n");
+
+            }
+
+            //peek
+            Console.WriteLine($"Peeking.... found the element [{stackOfInts.Peek()}]\n");
+
+            //pop
+            Console.WriteLine($"Deleting... element [{stackOfInts.Pop()}] was succesfully deleted!\n");
+
+        }
+
+        private static void TestStackOfObects()
+        {
+            //intro
+            Console.WriteLine("Number 1 means that you´re testing the stack implementation with a stack of different objects as follows:\n");
+
+            //new Stack of any type of Objects
+            Stack<Object> stackOfObjects = new Stack<Object>();
 
             //new Items to push onto the stack
             Item<Object> _item1 = new Item<Object>() { data = "Ivo", next = null };
@@ -20,50 +128,38 @@ namespace CodingDojo1
             Item<Object> _item5 = new Item<Object>() { data = "Malen", next = null };
 
 
-
             //push new item on top of stack
-            _stack1.Push(_item1);
-            _stack1.Push(_item2);
-            _stack1.Push(_item3);
-            _stack1.Push(_item4);
-            _stack1.Push(_item5);
-
+            stackOfObjects.Push(_item1);
+            stackOfObjects.Push(_item2);
+            stackOfObjects.Push(_item3);
+            stackOfObjects.Push(_item4);
+            stackOfObjects.Push(_item5);
 
             //print
-            Console.WriteLine(_item5.data);
-            printStack(_stack1);
+            printStack(stackOfObjects);
 
             //peek
-            Console.WriteLine(_stack1.Peek());
+            Console.WriteLine($"Peeking.... found the element [{stackOfObjects.Peek()}]\n");
 
             //pop
-            Console.WriteLine(_stack1.Pop());
-            printStack(_stack1);
+            Console.WriteLine($"Deleting... element [{stackOfObjects.Pop()}] was succesfully deleted!\n");
 
-
-
-
-
-
-
-
-
-
-
-
+            printStack(stackOfObjects);
         }
 
         private static void printStack(Stack<Object> stack)
         {
             if (stack._currentItem != null)
             {
+                Item<Object> tmp = stack._currentItem;
+
                 Console.WriteLine("The Stack will be printed in order: \n");
-                while (stack._currentItem.next != null)
+                while (tmp.next != null)
                 {
-                    Console.WriteLine($" -> {stack._currentItem.data}");
-                    stack._currentItem = stack._currentItem.next;
+                    Console.WriteLine($" -> {tmp.data}");
+                    tmp = tmp.next;
                 }
-                Console.WriteLine($" -> {stack._currentItem.data}\n");
+                Console.WriteLine($" -> {tmp.data}\n");
             }
             
         }

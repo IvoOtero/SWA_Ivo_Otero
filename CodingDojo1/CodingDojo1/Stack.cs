@@ -8,6 +8,10 @@ namespace CodingDojo1
         public Item<T> next { get; set; } //saves the reference to the next element in the stack-list
         public T data { get; set; }    // stores the data/value of the item (can be of any type)
 
+        public override string ToString()
+        {
+            return $"{this.data}";
+        }
     }
 
     class Stack<T>
