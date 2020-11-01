@@ -1,0 +1,203 @@
+﻿<Window x:Class="CodingDojo2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodingDojo2"
+        xmlns:converters="clr-namespace:CodingDojo2.Converters"
+        mc:Ignorable="d"
+  DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+        Title="Ivo´s SmartHome System" Height="830" Width="1000"  Background="Black">
+    <Window.Resources>
+        <converters:StringToBrushConverter x:Key="con"/>
+    </Window.Resources>
+    <Grid>
+        <!-- dividing grid in 2 columns and two rows -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!--#region Warning Message on top of the screen (first row) -->
+        <Border Margin="12" BorderBrush="Red" BorderThickness="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Margin="10,0" Height="40" Source="Images/Warning-WF.png"/>
+                <Label Content="Warning: *some message*" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" Foreground="White" FontWeight="Bold"/>
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+        
+        <!--#region Stackpanel for listing of 'Actuators' and 'Sensors' -->
+        <StackPanel Grid.Row="1">
+
+            <!--#region Table of Actuators -->
+            <Label Content="Actuators" VerticalAlignment="Center" Margin="10,0,0,0" HorizontalAlignment="Left" FontSize="20" Foreground="White" FontWeight="Bold"/>
+
+            <!-- actuators in the system are listed in the following datagrid -->
+            <DataGrid Margin="10" MinHeight="200" ItemsSource="{Binding ActorList}" AutoGenerateColumns="True" Height="200"/>
+            
+            <!-- buttons for 'adding' and 'deleting' an acuator from system -->
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+                <Button Content="Add" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,5,5" Height="45" Width="100" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White" Command="{Binding ActuatorAddBtnClickCmd}"/>
+                <Button Content="Delete" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,5,5" Height="45" Width="100" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White" Command="{Binding ActuatorDelBtnClickCmd}"/>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region Table of Sensors -->
+            <Label Content="Sensors" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" Foreground="White" FontWeight="Bold"/>
+
+            <!-- sensors are listed in the following datagrid -->
+            <DataGrid Margin="10" MinHeight="200" ItemsSource="{Binding SensorList}" AutoGenerateColumns="False" Height="200">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Name"/>
+                    <DataGridTextColumn Binding="{Binding Description}" Header="Description"/>
+                    <DataGridTextColumn Binding="{Binding Room}" Header="Room"/>
+                    <DataGridTemplateColumn Header="Mode">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Mode}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                        <!-- <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding Mode, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding DataContext.ModeSelectionList}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                        -->
+                        
+                    </DataGridTemplateColumn> 
+                    <DataGridTextColumn Binding="{Binding ValueType}" Header="ValueType"/>
+                    
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Ellipse Height="15" Width="15" Fill="{Binding Mode, Converter={StaticResource con}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding ItemType}" Header="ItemType"/>
+                    <DataGridTextColumn Binding="{Binding Value}" Header="Value"/>
+
+                    <DataGridTextColumn Binding="{Binding PosX}" Header="PosX"/>
+                    <DataGridTextColumn Binding="{Binding PosY}" Header="PosY"/>
+                    
+
+                </DataGrid.Columns>
+            </DataGrid>
+            
+            <!-- buttons for 'adding' and 'deleting' sensors in the system -->
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+                <Button Content="Add" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,5,5" Height="45" Width="100" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White" Command="{Binding SensorAddBtnClickCmd}"/>
+                <Button Content="Delete" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,10,5,5" Height="45" Width="100" FontSize="18" Background="#FF020202" BorderBrush="#FFF9F9F9" Foreground="White" Command="{Binding SensorDelBtnCmd}"/>
+            </StackPanel>
+
+        </StackPanel>
+        <!--#endregion-->
+        <!--#endregion-->
+
+        <!--#region Menu on the right side of the window -->
+        <Border Grid.RowSpan="2" Margin="5" Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="GhostWhite">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+
+                
+
+                <!-- definition for stack panel, stretched through the whole grid height -->
+                <StackPanel Grid.RowSpan="2" Grid.Column="1" Orientation="Vertical" Margin="5,10,5,10" Height="auto" VerticalAlignment="Stretch">
+
+                    <!-- stack panel for weather infos -->
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal" Name="Temperature">
+                            <Image Height="50" Width="50" Source="Images/Rain-WF.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0,0,0" Content="11°C" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Name="Wind">
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50"  Source="Images/Wind.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Width="auto" Height="auto"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0,0,0" Content="35 km/h" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+
+                        <Border BorderThickness="0,0,0,1.5" BorderBrush="GhostWhite"/>
+                    </StackPanel>
+
+                    <!-- stack panel for extra infos -->
+                    <StackPanel Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal" Name="SolarEnergy">
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50" Source="Images/Solar.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0,0,0" Content="5.880 W" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Name="NrOfPeople">
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50" Source="Images/Man-01.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0,0,0" Content="3" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Name="HouseLock">
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50" Source="Images/Unlock-WF.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0,0,0" Content="Unlocked" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+
+                        <Border BorderThickness="0,0,0,1.5" BorderBrush="GhostWhite"/>
+                    </StackPanel>
+
+
+                    <!-- stack panel for notifications -->
+                    <StackPanel Margin="0,5,0,5">
+                        <StackPanel Orientation="Horizontal" Name="Messages">
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50" Source="Images/Message Mail-WF.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0,0,0" Content="8 unread" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Name="Tasks">
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50" Source="Images/Tasks.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8,0,0,0" Content="2 tasks" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+
+                        <Border BorderThickness="0,0,0,1.5" BorderBrush="GhostWhite"/>
+                    </StackPanel>
+
+
+                    <!-- stack panel for changing the view -->
+                    <StackPanel Orientation="Vertical" Margin="0,15,0,15">
+
+                        <Button Content="Overview" Background="#FF030000" BorderBrush="GhostWhite" Foreground="GhostWhite" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Height="40" Width="180" Margin="0,8,0,0"/>
+                        <Button Content="Rooms" Background="#FF030000" BorderBrush="GhostWhite" Foreground="GhostWhite" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Height="40" Width="180" Margin="0,10,0,0"/>
+                        <Button Content="Devices" Background="#FF030000" BorderBrush="GhostWhite" Foreground="GhostWhite" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"  Height="40" Width="180" Margin="0,10,0,0"/>
+                        <Button Content="Security" Background="#FF030000" BorderBrush="GhostWhite" Foreground="GhostWhite" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"  Height="40" Width="180" Margin="0,10,0,0"/>
+                        <Button Content="Multimedia" Background="#FF030000" BorderBrush="GhostWhite" Foreground="GhostWhite" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"  Height="40" Width="180" Margin="0,10,0,0"/>
+
+                        <Border BorderThickness="0,0,0,1.5" BorderBrush="GhostWhite" Margin="0,7,0,0"/>
+                    </StackPanel>
+
+                    <!-- StackPanel for multimedia and time infos -->
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50" Source="Images/Speaker Decrease - 01.png" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Content="2" Foreground="GhostWhite" FontSize="20"/>
+                            <Image Height="50" Width="50" MinHeight="50" MinWidth="50" Source="Images/Speaker Increase - 02.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </StackPanel> 
+
+                        <StackPanel Orientation="Horizontal">
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Content="{Binding CurrentDate}" Foreground="GhostWhite" FontSize="20"/>
+                            <Label Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Content="{Binding CurrentTime}" Foreground="GhostWhite" FontSize="20"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+        
+        
+    </Grid>
+</Window>
