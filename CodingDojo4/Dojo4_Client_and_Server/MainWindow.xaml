@@ -1,0 +1,88 @@
+﻿<Window x:Class="Server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Dojo4_Client_and_Server"
+        mc:Ignorable="d"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        Title="MainWindow" Height="480" Width="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="51*"/>
+            <RowDefinition Height="383*"/>
+        </Grid.RowDefinitions>
+
+        <!-- small stackpanel for the two buttons: start and stop, for the server-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="611,0,0,0" Width="190">
+            <Button Content="Start" Width="75" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Background="#FF9CD8F3" Command="{Binding StartButtonCommand}"/>
+            <Button Content="Stop" Width="75" Height="30" VerticalAlignment="Center" Margin="10,0,10,0" Background="#FF9CD8F3" Command="{Binding StopButtonCommand}"/>
+        </StackPanel>
+
+        <!-- Tab-Control element, where all chats, users and log possibilities are displayed -->
+        <TabControl Grid.Row="1" Margin="0,9,0,0">
+            <!-- Chats-View -->
+            <TabItem Header="Chat" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top"  Background="LightGray">
+                <Grid Background="GhostWhite">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="146*"/>
+                        <ColumnDefinition Width="251*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- stackpanel displaying all connected users (clients) -->
+                    <StackPanel Grid.Column="0" Margin="25,25,25,25">
+                        <Label Content="Connected Users:" FontWeight="Bold" />
+                        <ListBox Height="230" Margin="0,10,0,0" Background="GhostWhite" ItemsSource="{Binding Users}"/>
+                        <Button Content="Drop" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding DropButtonCommand}"/>
+
+                    </StackPanel>
+
+                    <!--stackpanel displaying all recieved messages -->
+                    <StackPanel Grid.Column="1" Margin="25,25,25,25">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Recieved Messages:" FontWeight="Bold" />
+                            <Label Content="{Binding messageCount}"/>
+                        </StackPanel>
+                        <ListBox Height="230" MaxHeight="230" Margin="0,10,0,0" Background="GhostWhite" ItemsSource="{Binding Messages}"/>
+                        <Button Content="Save To Log" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding SaveButtonCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Logs" Background="LightGray">
+                <Grid Background="GhostWhite">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="17*"/>
+                        <ColumnDefinition Width="48*"/>
+                        <ColumnDefinition Width="228*"/>
+                        <ColumnDefinition Width="501*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- stackpanel displaying all connected users (clients) -->
+                    <StackPanel Grid.Column="1" Margin="8,25,25,25" Grid.ColumnSpan="2">
+                        <Label Content="Log files:" FontWeight="Bold" />
+                        <ListBox Height="230" Margin="0,10,0,0" Background="GhostWhite"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Show" Margin="5,5,5,5" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right"/>
+                            <Button Content="Drop" Margin="5,5,5,5" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right"/>
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <!--stackpanel displaying all recieved messages -->
+                    <StackPanel Grid.Column="3" Margin="25,25,25,25">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Recieved Messages:" FontWeight="Bold" />
+                            <Label Content="{Binding messageCount}"/>
+                        </StackPanel>
+                        <ListBox Height="230" MaxHeight="230" Margin="0,10,0,0" Background="GhostWhite"/>
+                        <Button Content="Save To Log" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

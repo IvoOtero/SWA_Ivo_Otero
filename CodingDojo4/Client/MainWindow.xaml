@@ -1,0 +1,52 @@
+﻿<Window x:Class="Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client" xmlns:ViewModel="clr-namespace:Client.ViewModel"
+        mc:Ignorable="d"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        Title="Messenger: Client" Height="400" Width="450">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="158*"/>
+            <RowDefinition Height="29*"/>
+        </Grid.RowDefinitions>
+
+        <!-- stack panel for chat name -->
+        <StackPanel Grid.Row="0" Grid.RowSpan="1" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <Label VerticalAlignment="Center">Chat Name:</Label>
+            <TextBox TextWrapping="Wrap" Width="150" VerticalAlignment="Center" Text="{Binding ChatName}"/>
+        </StackPanel>
+
+        <!--button (enables connection) outside of the stack panel, but on the same row-->
+        <Button x:Name="Connect" Width="50" Content="Connect" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0" Background="#FF9CD8F3" BorderBrush="#FF5D9BA3" Command="{Binding ConnectButtonCommand}"/>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,5,0,0">
+            <Label>Messages:</Label>
+            <ListBox Height="225" VerticalAlignment="Center" Margin="10,10,10,10" ItemsSource="{Binding Recieved}"/>
+
+        </StackPanel>
+
+
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Message: " VerticalAlignment="Center"/>
+                <TextBox TextWrapping="Wrap" VerticalAlignment="Center" Width="250" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="Send" VerticalAlignment="Center" Margin="10,10,10,10" Width="100" BorderBrush="#FF5C8990" Background="#FF9CD8F3" Command="{Binding SendButtonCommand}"/>
+                
+            </StackPanel>
+
+            
+        </Grid>
+
+
+
+
+        
+
+    </Grid>
+</Window>
