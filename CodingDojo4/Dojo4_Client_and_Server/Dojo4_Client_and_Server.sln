@@ -4,8 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server.csproj", "{6C824FE4-0577-4DDA-9C49-5FC10AE1E38E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6EF6A737-E325-4CC0-8277-126DA3443D2D} = {6EF6A737-E325-4CC0-8277-126DA3443D2D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "..\Client\Client.csproj", "{ED3C01C1-B0F8-484F-8353-9DA9F3E6CC5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHandling_and_Logging", "..\DataHandling_and_Logging\DataHandling_and_Logging.csproj", "{6EF6A737-E325-4CC0-8277-126DA3443D2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{ED3C01C1-B0F8-484F-8353-9DA9F3E6CC5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED3C01C1-B0F8-484F-8353-9DA9F3E6CC5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED3C01C1-B0F8-484F-8353-9DA9F3E6CC5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EF6A737-E325-4CC0-8277-126DA3443D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EF6A737-E325-4CC0-8277-126DA3443D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EF6A737-E325-4CC0-8277-126DA3443D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EF6A737-E325-4CC0-8277-126DA3443D2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+﻿using DataHandling_and_Logging;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
-
+using System.Linq;
 
 namespace Server.ViewModel
 {
@@ -13,56 +14,136 @@ namespace Server.ViewModel
         private const int portNr = 10100; //always use the same port for sockets
         private const string ip = "127.0.0.1";
         private bool isConnected = false;
+        public DataHandler dataHandler; //self made data handler from project "DataHandling_and_Logging"
         
         public RelayCommand StartButtonCommand { get; set; }
         public RelayCommand StopButtonCommand { get; set; }
-        public RelayCommand DropButtonCommand { get; set; }
-        public RelayCommand SaveButtonCommand { get; set; }
+        public RelayCommand DropUserButtonCommand { get; set; }
+        public RelayCommand SaveToLogBtnClickCommand { get; set; }
+        public RelayCommand OpenFileButtonCommand { get; set; }
+        public RelayCommand DropFileButtonCommand { get; set; }
+
+
+
+
         public ObservableCollection<string> Users { get; set; } //list of users to be displayed on left side of GUI
         public ObservableCollection<string> Messages { get; set; } //list of all messages, written by any user on the application
-        public String selectedUser { get; set; } //selected user from the user list on GUI, useful for drop connection 
-        public int messageCount { get { return Messages.Count; } }
+        public ObservableCollection<string> LogMessages { get; set; }
 
+        private string _selectedUser;
+        public String SelectedUser {
+            get
+            {
+                return _selectedUser;
+            }
+            set 
+            {
+                _selectedUser = value;
+                RaisePropertyChanged("SelectedUser");
+                DropUserButtonCommand.RaiseCanExecuteChanged();
+
+            }
+
+        } //selected user from the user list on GUI, useful for dropping user-connection 
+
+        private string _selectedFile;
+        public String SelectedFile
+        {
+            get
+            {
+                return _selectedFile;
+            }
+            set
+            {
+                _selectedFile = value;
+                RaisePropertyChanged("SelectedFile");
+                OpenFileButtonCommand.RaiseCanExecuteChanged();
+                DropFileButtonCommand.RaiseCanExecuteChanged();
+            }
+
+        } //selected user from the user list on GUI, useful for dropping user-connection 
+
+        public int messageCount { get { return Messages.Count; } }
+        public ObservableCollection<string> Files
+        {
+            get => new ObservableCollection<string>(dataHandler.ListFilesFromFolder());
+        }
         
 
         public MainViewModel()
         {         
-            Messages = new ObservableCollection<string>();
-            Users = new ObservableCollection<string>();
+            this.Messages = new ObservableCollection<string>();
+            this.Users = new ObservableCollection<string>();
+            this.dataHandler = new DataHandler();
+            this.LogMessages = new ObservableCollection<string>();
 
-            //command for start button on the server side of application
+            //set command for start connection on the server side of application
             StartButtonCommand = new RelayCommand(
                 () =>
                 {
                     server = new ServerCommunication.Server(ip, portNr, UpdateMessageList);
                     server.AcceptingThread();
                     isConnected = true;
-                }, () =>
-                {
-                    return !isConnected;
-                });
+                    StartButtonCommand.RaiseCanExecuteChanged();
+                    StopButtonCommand.RaiseCanExecuteChanged();
+                }, () => !isConnected);
 
+            //set command for stopping the server on server window
             StopButtonCommand = new RelayCommand(
                 () =>
                 {
                     server.Stop(); //stop all connections and threads
                     isConnected = false;
+                    StartButtonCommand.RaiseCanExecuteChanged();
+                    StopButtonCommand.RaiseCanExecuteChanged();
 
-                }, () =>
-                {
-                    return isConnected; 
-                });
+                }, () => isConnected);
 
-            DropButtonCommand = new RelayCommand(
+            //set command for disconnecting a user
+            DropUserButtonCommand = new RelayCommand(
                 () =>
                 {
-                    server.DropUser(selectedUser); //stopp a specific user connection to the server
-                    Users.Remove(selectedUser); //remove User from the GUI´s list of connected users 
+                    server.DropUser(_selectedUser); //stopp a specific user connection to the server
+                    Users.Remove(_selectedUser); //remove User from the GUI´s list of connected users 
+                    RaisePropertyChanged("Users");
                 }, () =>
                 {
-                    return (selectedUser != null); //returns true if the selected user to drop is not null
+                    return (SelectedUser != null); //returns true if the selected user to drop is not null
                 });
 
+            //set command for saving a log-file in the system
+            SaveToLogBtnClickCommand = new RelayCommand(
+                () =>
+                {
+                    dataHandler.Save(Messages.ToList());
+                    RaisePropertyChanged("Files"); //updates the list of log-files in the GUI
+                    SaveToLogBtnClickCommand.RaiseCanExecuteChanged();
+
+                }, () => this.Messages != null);
+
+
+            //set command for opening a log-file into the ListBox in the GUI
+            OpenFileButtonCommand = new RelayCommand(
+                () =>
+                {
+                    //load all messages from the selected file and save them in the variable "LogMessages"
+                    this.LogMessages = new ObservableCollection<string>(dataHandler.Load(SelectedFile));
+
+                    //updates the list of Messages to be displayed in the Log-ListBox on the GUI 
+                    RaisePropertyChanged("LogMessages");
+
+                }, () => SelectedFile != null); //only sets command when the selected file exists or contains messages
+
+            //set command for deleting or "dropping" a log-file 
+            DropFileButtonCommand = new RelayCommand(
+                () =>
+                {
+                    this.dataHandler.Delete(SelectedFile);
+
+                    //updates the list of log-files to be displayed in the GUI
+                    RaisePropertyChanged("Files");
+
+                }, () => this.SelectedFile != null);//only sets command when the selected file exists
 
         }
 

@@ -18,8 +18,8 @@
 
         <!-- stack panel for chat name -->
         <StackPanel Grid.Row="0" Grid.RowSpan="1" Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Label VerticalAlignment="Center">Chat Name:</Label>
-            <TextBox TextWrapping="Wrap" Width="150" VerticalAlignment="Center" Text="{Binding ChatName}"/>
+            <Label VerticalAlignment="Center">Username:</Label>
+            <TextBox TextWrapping="Wrap" Width="150" VerticalAlignment="Center" Text="{Binding Username}"/>
         </StackPanel>
 
         <!--button (enables connection) outside of the stack panel, but on the same row-->

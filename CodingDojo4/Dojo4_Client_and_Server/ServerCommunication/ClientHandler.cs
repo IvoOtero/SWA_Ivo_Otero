@@ -54,7 +54,7 @@ namespace Server.ServerCommunication
         public  void Close()
         {
             Send(endMessage); //sends endmessage ("@quit") to client 
-            this.recieveThread.Abort(); //abort client thread
+            recieveThread.Abort(); //abort client thread
             socket.Close(1); //disconnect
         }
 

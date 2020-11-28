@@ -40,7 +40,8 @@ namespace Server.ServerCommunication
                 }
                 catch (Exception e)
                 {
-                    //executed if serversocket.close is called
+
+                    Console.WriteLine("Server was succesfully closed (it finally works)!! ");
                 }
             }
         }
@@ -61,10 +62,11 @@ namespace Server.ServerCommunication
         {
             foreach (var user in users)
             {
-                if (user.Name.Equals(username))
+                if (user.Name.Contains(username))
                 {
                     user.Close();
                     users.Remove(user); //removes the user from the connected users list 
+                    
                     break;
                 }
             }

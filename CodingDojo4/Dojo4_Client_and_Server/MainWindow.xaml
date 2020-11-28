@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Dojo4_Client_and_Server"
         mc:Ignorable="d"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
-        Title="MainWindow" Height="480" Width="800">
+        Title="MainWindow" Height="480" Width="815">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -33,8 +33,8 @@
                     <!-- stackpanel displaying all connected users (clients) -->
                     <StackPanel Grid.Column="0" Margin="25,25,25,25">
                         <Label Content="Connected Users:" FontWeight="Bold" />
-                        <ListBox Height="230" Margin="0,10,0,0" Background="GhostWhite" ItemsSource="{Binding Users}"/>
-                        <Button Content="Drop" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding DropButtonCommand}"/>
+                        <ListBox Height="230" Margin="0,10,0,0" Background="GhostWhite" ItemsSource="{Binding Users, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedUser}" />
+                        <Button Content="Drop" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding DropUserButtonCommand}"/>
 
                     </StackPanel>
 
@@ -45,7 +45,7 @@
                             <Label Content="{Binding messageCount}"/>
                         </StackPanel>
                         <ListBox Height="230" MaxHeight="230" Margin="0,10,0,0" Background="GhostWhite" ItemsSource="{Binding Messages}"/>
-                        <Button Content="Save To Log" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding SaveButtonCommand}"/>
+                        <Button Content="Save To Log" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding SaveToLogBtnClickCommand}"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -62,10 +62,10 @@
                     <!-- stackpanel displaying all connected users (clients) -->
                     <StackPanel Grid.Column="1" Margin="8,25,25,25" Grid.ColumnSpan="2">
                         <Label Content="Log files:" FontWeight="Bold" />
-                        <ListBox Height="230" Margin="0,10,0,0" Background="GhostWhite"/>
+                        <ListBox Height="230" Margin="0,10,0,0" Background="GhostWhite" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="Show" Margin="5,5,5,5" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right"/>
-                            <Button Content="Drop" Margin="5,5,5,5" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right"/>
+                            <Button Content="Show" Margin="5,5,5,5" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding OpenFileButtonCommand}"/>
+                            <Button Content="Drop" Margin="5,5,5,5" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding DropFileButtonCommand}"/>
                         </StackPanel>
 
                     </StackPanel>
@@ -73,11 +73,10 @@
                     <!--stackpanel displaying all recieved messages -->
                     <StackPanel Grid.Column="3" Margin="25,25,25,25">
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Recieved Messages:" FontWeight="Bold" />
-                            <Label Content="{Binding messageCount}"/>
+                            <Label Content="Log Messages" FontWeight="Bold" />
                         </StackPanel>
-                        <ListBox Height="230" MaxHeight="230" Margin="0,10,0,0" Background="GhostWhite"/>
-                        <Button Content="Save To Log" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right"/>
+                        <ListBox Height="230" MaxHeight="230" Margin="0,10,0,0" Background="GhostWhite" ItemsSource="{Binding LogMessages}"/>
+                        <Button Content="Save To Log" Margin="0,5,0,0" Background="#FF9CD8F3" Width="70" HorizontalAlignment="Right" Command="{Binding SaveToLogBtnClickCommand}"/>
                     </StackPanel>
                 </Grid>
 
