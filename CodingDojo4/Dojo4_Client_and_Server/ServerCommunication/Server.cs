@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Server.ServerCommunication
 {
@@ -13,7 +14,7 @@ namespace Server.ServerCommunication
         Socket socket;
         List<ClientHandler> users = new List<ClientHandler>();
         Action<string> GUIAction;
-        Thread acceptingThread; //accepts new clients into the server 
+        Task acceptingThread; //accepts new clients into the server 
 
         public Server(string ip, int portNr, Action<string> action)
         {
@@ -25,14 +26,16 @@ namespace Server.ServerCommunication
 
         public void AcceptingThread()
         {
-            acceptingThread = new Thread(new ThreadStart(Accept));
-            acceptingThread.IsBackground = true;
-            acceptingThread.Start(); //starts new thread
+            acceptingThread = Task.Run(
+                () => Accept());
+
+            
+            //acceptingThread.Start(); //starts new thread
         }
 
         public void Accept()
         {
-            while (acceptingThread.IsAlive)
+            while (acceptingThread.IsCompleted.Equals(false))
             {
                 try
                 {
@@ -49,7 +52,10 @@ namespace Server.ServerCommunication
         public void Stop()
         {
             socket.Close();
-            acceptingThread.Abort();
+            var source = new CancellationTokenSource();
+            CancellationToken cancellationToken = source.Token;
+            cancellationToken.ThrowIfCancellationRequested();
+            source.Cancel();
             foreach (var user in users)
             {
                 user.Close();

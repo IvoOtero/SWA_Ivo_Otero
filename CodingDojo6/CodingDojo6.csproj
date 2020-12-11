@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\error.png" />
+    <None Remove="Images\GameBoyAdvanced.jpg" />
+    <None Remove="Images\GameBoyColor.jpg" />
+    <None Remove="Images\LEGO.jpg" />
+    <None Remove="Images\LEGO_Batman.jpg" />
+    <None Remove="Images\LEGO_City.jpg" />
+    <None Remove="Images\LEGO_Starwars.jpg" />
+    <None Remove="Images\ModernConsoles.jpg" />
+    <None Remove="Images\ok.png" />
+    <None Remove="Images\PS1.jpg" />
+    <None Remove="Images\PS4.jpg" />
+    <None Remove="Images\PS5.jpg" />
+    <None Remove="Images\RetroCoonsoles.jpg" />
+    <None Remove="Images\SegaGenesis.jpg" />
+    <None Remove="Images\Switch.jpg" />
+    <None Remove="Images\XBOX_One.jpg" />
+    <None Remove="Images\XBOX_X.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\error.png" />
+    <Resource Include="Images\GameBoyAdvanced.jpg" />
+    <Resource Include="Images\GameBoyColor.jpg" />
+    <Resource Include="Images\LEGO.jpg" />
+    <Resource Include="Images\LEGO_Batman.jpg" />
+    <Resource Include="Images\LEGO_City.jpg" />
+    <Resource Include="Images\LEGO_Starwars.jpg" />
+    <Resource Include="Images\ModernConsoles.jpg" />
+    <Resource Include="Images\ok.png" />
+    <Resource Include="Images\PS1.jpg" />
+    <Resource Include="Images\PS4.jpg" />
+    <Resource Include="Images\PS5.jpg" />
+    <Resource Include="Images\RetroCoonsoles.jpg" />
+    <Resource Include="Images\SegaGenesis.jpg" />
+    <Resource Include="Images\Switch.jpg" />
+    <Resource Include="Images\XBOX_One.jpg" />
+    <Resource Include="Images\XBOX_X.jpg" />
+  </ItemGroup>
+
+</Project>
