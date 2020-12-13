@@ -7,6 +7,7 @@ namespace CodingDojo6.MessageBarProperties
     public enum MessageState
     {
         Error,
-        Ok
+        Ok,
+        Delete
     }
 }

@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:CodingDojo6"
         xmlns:vm="clr-namespace:CodingDojo6.ViewModel"
         xmlns:views="clr-namespace:CodingDojo6.Views"
+        xmlns:msgbar="clr-namespace:CodingDojo6.MessageBarProperties"
         mc:Ignorable="d"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
-        Title="Toy-App" Height="600" Width="1000">
+        Title="Toy-App" Height="650" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="6*"/>
@@ -38,17 +39,7 @@
         </ContentControl>
         </Border>
 
-        <ContentControl Grid.Row="1" Grid.Column="1">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type vm:MessageBarViewModel}">
-                    <views:MessageBarUserControl/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
-        
-
-
-
+        <views:MessageBarUserControl Grid.Column="1" Grid.Row="1"/>
 
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using CodingDojo6.Items;
+using CodingDojo6.MessageBarProperties;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -37,6 +38,9 @@ namespace CodingDojo6.ViewModel
                 (Item) =>
                 {
                     Selected.Remove(Item);
+                    this.MessengerInstance.Send<PropertyChangedMessage<Message>>(new PropertyChangedMessage<Message>(null, new Message("Item deleted", MessageState.Delete), "MessageBar"), "ScreenMessage");
+                    (App.Current.Resources["Locator"] as ViewModelLocator).MessageBar.RegisterOnMessenger("ScreenMessage");
+                
                 });
         }
 

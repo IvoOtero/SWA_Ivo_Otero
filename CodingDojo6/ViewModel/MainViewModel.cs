@@ -76,7 +76,7 @@ namespace CodingDojo6
 
 
             //init MessageBar by geting the ViewModelLocator via the App Resources
-            (App.Current.Resources["Locator"] as ViewModelLocator).MessageBar.RegisterOnMessenger("@Message");
+            //(App.Current.Resources["Locator"] as ViewModelLocator).MessageBar.RegisterOnMessenger("@Message");
             //after that messages sent via messanger at @Message are displayed in the bar
 
         }

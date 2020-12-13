@@ -8,11 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800"
               DataContext="{Binding MessageBar, Source={StaticResource Locator}}">
     <Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Height="100">
-            <Image Source="{Binding Symbol}" Margin="10" Width="80" Height="90"/>
-            <Border Margin="5" CornerRadius="7" BorderBrush="LightGray" BorderThickness="1" Visibility="{Binding Visible}">
-                <Label Margin="5" Content="{Binding Message}" VerticalAlignment="Center" Height="50" FontSize="14"/>
-            </Border>
-        </StackPanel>
+        <Border Margin="5" CornerRadius="7" BorderBrush="LightGray" BorderThickness="1"  Visibility="{Binding Visible}" Width="300">
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Height="80" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Source="{Binding Symbol}" Margin="10" Width="60" Height="60"/>
+                <Label Margin="5" Content="{Binding Message}" VerticalAlignment="Center" Height="60" FontSize="15" VerticalContentAlignment="Center"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

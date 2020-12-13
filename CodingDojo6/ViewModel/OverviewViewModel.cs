@@ -53,8 +53,8 @@ namespace CodingDojo6.ViewModel
                 (Item) =>
                 {
                     this.MessengerInstance.Send<PropertyChangedMessage<Toy>>(new PropertyChangedMessage<Toy>(null, Item, "AddToys"), "Write");
-
-                    this.MessengerInstance.Send<PropertyChangedMessage<Message>>(new PropertyChangedMessage<Message>(null, new Message("New Entry Added", MessageState.Ok), ""), "@Message");
+                    this.MessengerInstance.Send<PropertyChangedMessage<Message>>(new PropertyChangedMessage<Message>(null, new Message("New Entry Added", MessageState.Ok), "MessageBar"), "ScreenMessage");
+                    (App.Current.Resources["Locator"] as ViewModelLocator).MessageBar.RegisterOnMessenger("ScreenMessage");
                 });
 
         }

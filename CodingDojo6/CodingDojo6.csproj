@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\error.png" />
+    <None Remove="Images\delete.jpg" />
+    <None Remove="Images\error.jpg" />
     <None Remove="Images\GameBoyAdvanced.jpg" />
     <None Remove="Images\GameBoyColor.jpg" />
     <None Remove="Images\LEGO.jpg" />
@@ -31,7 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\error.png" />
+    <Resource Include="Images\delete.jpg" />
+    <Resource Include="Images\error.jpg" />
     <Resource Include="Images\GameBoyAdvanced.jpg" />
     <Resource Include="Images\GameBoyColor.jpg" />
     <Resource Include="Images\LEGO.jpg" />

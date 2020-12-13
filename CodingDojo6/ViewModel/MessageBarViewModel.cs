@@ -31,7 +31,7 @@ namespace CodingDojo6.ViewModel
         }
 
 
-        private Visibility _visible;
+        private Visibility _visible = Visibility.Hidden;
         public Visibility Visible
         {
             get => _visible;
@@ -42,24 +42,35 @@ namespace CodingDojo6.ViewModel
         public MessageBarViewModel()
         {
             timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 2); //message should only appear 2 seconds on screen after selecting an item
+            timer.Interval = new TimeSpan(0, 0, 1); //message should only appear 2 seconds on screen after selecting an item
+            timer.Tick += Timer_Tick;
+        }
 
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Symbol = null;
+            Message = "";
+            timer.Stop();
+            Visible = Visibility.Hidden;
         }
 
         //method that shows the info in the message
         public void ShowInfo(Message msg)
         {
-            //display message on screen
+            //visibility of the message on screen
             Visible = Visibility.Visible;
 
             //switch method that trecieves the message state of the incoming message, this can be an error or success message
             switch (msg.State)
             {                
                 case MessageState.Error:
-                    Symbol = new BitmapImage(new Uri("../Images/error.png", UriKind.Relative));
+                    Symbol = new BitmapImage(new Uri("../Images/error.jpg", UriKind.Relative));
                     break;
                 case MessageState.Ok:
                     Symbol = new BitmapImage(new Uri("../Images/ok.png", UriKind.Relative));
+                    break;
+                case MessageState.Delete:
+                    Symbol = new BitmapImage(new Uri("../Images/delete.jpg", UriKind.Relative));
                     break;
                 default:
                     break;
@@ -70,13 +81,14 @@ namespace CodingDojo6.ViewModel
             timer.Start();
         }
 
-
+        
         //Register on Messenger (recieves the message)
-        public void RegisterOnMessenger(string token)
+        public void RegisterOnMessenger(string message)
         {
             //this.messenger = messenger;
-            this.MessengerInstance.Register<PropertyChangedMessage<Message>>(this, token, showContent);
+            this.MessengerInstance.Register<PropertyChangedMessage<Message>>(this, message, showContent);
         }
+       
 
         //Display Info
         private void showContent(PropertyChangedMessage<Message> obj)
