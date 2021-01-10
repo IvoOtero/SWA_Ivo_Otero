@@ -10,25 +10,32 @@ namespace Server.ViewModel
     public class MainViewModel : ViewModelBase
     {
 
-        private ServerCommunication.Server server; //server instance, issue with project name and server class name
-        private const int portNr = 10100; //always use the same port for sockets
-        private const string ip = "127.0.0.1";
+        private ServerCommunication.Server server; //server instance (issue with project name and server class name)
+        private const int portNr = 10100; //the port number is always set to 10100, as it guarantees communication with TCP 
+        private const string ip = "127.0.0.1"; //local ip adress, as the server runs in the local computer
         private bool isConnected = false;
         public DataHandler dataHandler; //self made data handler from project "DataHandling_and_Logging"
-        
+        public int messageCount { get { return Messages.Count; } }
+
+
+        #region Relay Commands for GUI
         public RelayCommand StartButtonCommand { get; set; }
         public RelayCommand StopButtonCommand { get; set; }
         public RelayCommand DropUserButtonCommand { get; set; }
         public RelayCommand SaveToLogBtnClickCommand { get; set; }
         public RelayCommand OpenFileButtonCommand { get; set; }
         public RelayCommand DropFileButtonCommand { get; set; }
-
-
+        #endregion
 
 
         public ObservableCollection<string> Users { get; set; } //list of users to be displayed on left side of GUI
         public ObservableCollection<string> Messages { get; set; } //list of all messages, written by any user on the application
         public ObservableCollection<string> LogMessages { get; set; }
+        public ObservableCollection<string> Files //list of all saved log-files 
+        {
+            get => new ObservableCollection<string>(dataHandler.ListFilesFromFolder());
+        }
+        
 
         private string _selectedUser;
         public String SelectedUser {
@@ -40,11 +47,12 @@ namespace Server.ViewModel
             {
                 _selectedUser = value;
                 RaisePropertyChanged("SelectedUser");
-                DropUserButtonCommand.RaiseCanExecuteChanged();
 
+                //update the status of the user (if it was indeed selected in the GUI), which affects if the DropUserButtonCommand can be excecuted 
+                DropUserButtonCommand.RaiseCanExecuteChanged(); 
             }
+        } 
 
-        } //selected user from the user list on GUI, useful for dropping user-connection 
 
         private string _selectedFile;
         public String SelectedFile
@@ -57,18 +65,14 @@ namespace Server.ViewModel
             {
                 _selectedFile = value;
                 RaisePropertyChanged("SelectedFile");
+
+                //update the status of the file (if it was indeed selected in the GUI), which affects if the following commands can be excecuted 
                 OpenFileButtonCommand.RaiseCanExecuteChanged();
                 DropFileButtonCommand.RaiseCanExecuteChanged();
             }
+        } 
 
-        } //selected user from the user list on GUI, useful for dropping user-connection 
 
-        public int messageCount { get { return Messages.Count; } }
-        public ObservableCollection<string> Files
-        {
-            get => new ObservableCollection<string>(dataHandler.ListFilesFromFolder());
-        }
-        
 
         public MainViewModel()
         {         
@@ -77,16 +81,19 @@ namespace Server.ViewModel
             this.dataHandler = new DataHandler();
             this.LogMessages = new ObservableCollection<string>();
 
+
             //set command for start connection on the server side of application
             StartButtonCommand = new RelayCommand(
                 () =>
                 {
+                    //action to be excecuted...
                     server = new ServerCommunication.Server(ip, portNr, UpdateMessageList);
                     server.AcceptingThread();
                     isConnected = true;
                     StartButtonCommand.RaiseCanExecuteChanged();
                     StopButtonCommand.RaiseCanExecuteChanged();
-                }, () => !isConnected);
+                }, () => !isConnected); //command can be excecuted only when bool expression is "true" 
+
 
             //set command for stopping the server on server window
             StopButtonCommand = new RelayCommand(
@@ -99,6 +106,7 @@ namespace Server.ViewModel
 
                 }, () => isConnected);
 
+
             //set command for disconnecting a user
             DropUserButtonCommand = new RelayCommand(
                 () =>
@@ -110,6 +118,7 @@ namespace Server.ViewModel
                 {
                     return (SelectedUser != null); //returns true if the selected user to drop is not null
                 });
+
 
             //set command for saving a log-file in the system
             SaveToLogBtnClickCommand = new RelayCommand(
@@ -133,6 +142,7 @@ namespace Server.ViewModel
                     RaisePropertyChanged("LogMessages");
 
                 }, () => SelectedFile != null); //only sets command when the selected file exists or contains messages
+
 
             //set command for deleting or "dropping" a log-file 
             DropFileButtonCommand = new RelayCommand(

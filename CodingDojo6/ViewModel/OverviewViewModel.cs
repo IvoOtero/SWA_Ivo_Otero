@@ -14,22 +14,9 @@ namespace CodingDojo6.ViewModel
 {
     public class OverviewViewModel : ViewModelBase
     {
-        //private Messenger messenger = SimpleIoc.Default.GetInstance<Messenger>(); 
         public ObservableCollection<ToyGroup> ToyGroups { get; set; }
 
-        //current group between LEGOS, and Consoles
-        private ToyGroup _currentToyGroup;
-        public ToyGroup CurrentToyGroup
-        {
-            get => _currentToyGroup;
-            set
-            {
-                _currentToyGroup = value;
-                RaisePropertyChanged("CurrentToyGroup");
-            }
-        }
-
-
+  
         //command that starts when user clicks the Select-Button for a specific toy in the GUI
         private RelayCommand<Toy> _selectToyButtonCommand;
         public RelayCommand<Toy> SelectToyButtonCommand

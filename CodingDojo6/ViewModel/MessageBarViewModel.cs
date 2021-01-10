@@ -12,7 +12,6 @@ namespace CodingDojo6.ViewModel
 {
     public class MessageBarViewModel : ViewModelBase
     {
-        //private Messenger messenger;
         private DispatcherTimer timer;
 
         private string _message;

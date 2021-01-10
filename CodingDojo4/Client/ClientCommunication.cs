@@ -9,29 +9,28 @@ namespace Client
 {
     public class ClientCommunication
     {
-        //socket for communication
+        //socket for client communication with the server instance
         Socket socket;
         byte[] buffer = new byte[512]; //buffer serves as storage location for data transmitted by TCP
         Action<string> MessageInformer; //informs the server about the text message
         Action AbortInformer;  //informs the server in case the instance needs to be aborted
 
-        public ClientCommunication(string ip, int port, Action<string> messageInformer, Action abortInformer)
+        public ClientCommunication  (string ip, int port, Action<string> messageInformer, Action abortInformer)
         {
             try
             {
                 this.AbortInformer = abortInformer;
                 this.MessageInformer = messageInformer;
-                //new tcp client for the connection
                 TcpClient client = new TcpClient();
                 client.Connect(IPAddress.Parse(ip), port);
-                //sets the client socket
                 socket = client.Client;
+
                 //starts recieving messages
                 StartReceiving();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                messageInformer("Server not ready");
+                messageInformer("Server not ready. " + $"Exception thrown: {e.Message}" );
                 AbortInformer(); //reset Client Communication
             }
 
@@ -54,7 +53,7 @@ namespace Client
                 //inform the GUI and pass the message
                 MessageInformer(message);
             }
-            Close(); //if "@quit" was sent, then the socket will be closed
+            Close(); //if "@quit" was recieved, then the socket connection will be closed
         }
 
         //method to send specific data to the connected socket on the server-side

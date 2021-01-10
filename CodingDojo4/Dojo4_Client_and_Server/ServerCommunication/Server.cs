@@ -14,22 +14,23 @@ namespace Server.ServerCommunication
         Socket socket;
         List<ClientHandler> users = new List<ClientHandler>();
         Action<string> GUIAction;
-        Task acceptingThread; //accepts new clients into the server 
+        Task acceptingThread; //Task to accept new clients into the server 
 
         public Server(string ip, int portNr, Action<string> action)
         {
             GUIAction = action;
+
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Bind(new IPEndPoint(IPAddress.Parse(ip), portNr));
-            socket.Listen(5); 
+            socket.Bind(new IPEndPoint(IPAddress.Parse(ip), portNr));  //binding/associating the socket to a local endpoint
+            socket.Listen(5);
         }
 
         public void AcceptingThread()
-        {
+        { 
             acceptingThread = Task.Run(
                 () => Accept());
 
-            
+
             //acceptingThread.Start(); //starts new thread
         }
 
@@ -39,12 +40,16 @@ namespace Server.ServerCommunication
             {
                 try
                 {
+                    //
+                    //try-catch block: if the accepting Thread is not completed, then the program
+                    //adds a new ClientHandler to the users list with a new Socket and an Action referencing the method "newMessage"
+                    //
                     users.Add(new ClientHandler(socket.Accept(), new Action<string, Socket>(newMessage)));
                 }
                 catch (Exception e)
                 {
 
-                    Console.WriteLine("Server was succesfully closed (it finally works)!! ");
+                    Console.WriteLine($"Server was succesfully closed (it finally works)!! {Environment.NewLine} " + $"Exception thrown: {e.Message}");
                 }
             }
         }
@@ -72,7 +77,7 @@ namespace Server.ServerCommunication
                 {
                     user.Close();
                     users.Remove(user); //removes the user from the connected users list 
-                    
+
                     break;
                 }
             }

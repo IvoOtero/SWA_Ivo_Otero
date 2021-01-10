@@ -27,11 +27,12 @@ namespace DataHandling_and_Logging
             //create class to move and modify through a folder 
             DirectoryInfo info = new DirectoryInfo(folder);
 
-            //get all files in the folder with the extension ".txt" and save them in a variable 
+            //get all files in the folder with the extension ".txt" and save them in an array 
             var result = info.GetFiles("*" + fileExtension);
             string[] tmp = new string[result.Length];
             int i = 0;
 
+            //save each filename in the folder into the list to be returned 
             foreach (var file in result)
             {
                 tmp[i] = file.Name;

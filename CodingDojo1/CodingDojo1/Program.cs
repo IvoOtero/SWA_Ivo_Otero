@@ -8,35 +8,46 @@ namespace CodingDojo1
     {
         static void Main(string[] args)
         {
-            //intro 
-            Console.WriteLine("Choose a number between 1 and 3: ");
-            int userInput = int.Parse(Console.ReadLine());
+            int userInput;
 
-            switch (userInput)
+            do
             {
-                case 1:
-                    TestStackOfObects();
-                    break;
+                //intro 
+                Console.WriteLine("Choose a number between 1 and 3 (press '0' to exit the program): ");
+                userInput = int.Parse(Console.ReadLine());
 
-                case 2:
-                    TestStackOfInts();
-                    break;
+                switch (userInput)
+                {
+                    case 0:
+                        Console.WriteLine("Sorry to see you leave. See ya!");
+                        break;
 
-                case 3:
-                    TestStackOfStrings();
-                    break;
+                    case 1:
+                        TestStackOfObects();
+                        break;
 
-                default:
-                    Console.WriteLine("You can´t just write something else, I´m sorry :/");
-                    break;
-            }
+                    case 2:
+                        TestStackOfInts();
+                        break;
+
+                    case 3:
+                        TestStackOfStrings();
+                        break;
+
+                    default:
+                        Console.WriteLine("You can´t just write something else, I´m sorry :/");
+                        break;
+                }
+            } while (userInput != 0);
+
+
 
         }
 
         private static void TestStackOfStrings()
         {
             //intro
-            Console.WriteLine("Number 2 means that you are testing with a stack of integers (so interesting)!\n");
+            Console.WriteLine("Number 2 means that you are testing with a stack of Strings (so interesting)!\n");
 
             //new Stack of any type of Objects
             Stack<String> stackOfStrings = new Stack<String>();
@@ -71,6 +82,19 @@ namespace CodingDojo1
             //pop
             Console.WriteLine($"Deleting... element [{stackOfStrings.Pop()}] was succesfully deleted!\n");
 
+            //print
+            Console.WriteLine("FULL STACK IN ORDER:\n");
+            if (stackOfStrings._currentItem != null)
+            {
+                Item<String> tmp = stackOfStrings._currentItem;
+                while (tmp.next != null)
+                {
+                    Console.WriteLine($" -> {tmp.data}");
+                    tmp = tmp.next;
+                }
+                Console.WriteLine($" -> {tmp.data}\n");
+
+            }
         }
 
         private static void TestStackOfInts()
@@ -110,6 +134,19 @@ namespace CodingDojo1
             //pop
             Console.WriteLine($"Deleting... element [{stackOfInts.Pop()}] was succesfully deleted!\n");
 
+            //print
+            Console.WriteLine("FULL STACK IN ORDER:\n");
+            if (stackOfInts._currentItem != null)
+            {
+                Item<int> tmp = stackOfInts._currentItem;
+                while (tmp.next != null)
+                {
+                    Console.WriteLine($" -> {tmp.data}");
+                    tmp = tmp.next;
+                }
+                Console.WriteLine($" -> {tmp.data}\n");
+
+            }
         }
 
         private static void TestStackOfObects()
@@ -123,7 +160,7 @@ namespace CodingDojo1
             //new Items to push onto the stack
             Item<Object> _item1 = new Item<Object>() { data = "Ivo", next = null };
             Item<Object> _item2 = new Item<Object>() { data = 24, next = null };
-            Item<Object> _item3 = new Item<Object>() { data = new int[5], next = null };
+            Item<Object> _item3 = new Item<Object>() { data = 99.7782629, next = null };
             Item<Object> _item4 = new Item<Object>() { data = "Miki", next = null };
             Item<Object> _item5 = new Item<Object>() { data = "Malen", next = null };
 
@@ -161,7 +198,7 @@ namespace CodingDojo1
                 }
                 Console.WriteLine($" -> {tmp.data}\n");
             }
-            
+
         }
     }
 }

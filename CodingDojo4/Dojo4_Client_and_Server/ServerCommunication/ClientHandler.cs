@@ -12,8 +12,8 @@ namespace Server.ServerCommunication
     {
         public Socket socket { get; private set; }
         public string Name { get; private set; }
-        private byte[] buffer = new byte[512];
-        Action<string, Socket> GUIAction;
+        private byte[] buffer = new byte[512];        
+        Action<string, Socket> GUIAction; //Action that encapsulates a method that takes String and Socket parameters and returns no value (void)
         string endMessage = "@quit";
         Task recieveThread;
 
@@ -34,7 +34,7 @@ namespace Server.ServerCommunication
             {
                 length = socket.Receive(buffer);
                 message = Encoding.UTF8.GetString(this.buffer, 0, length);
-                //set name of the messager
+                //set name of the messager/user 
                 if (this.Name == null && message.Contains(":"))
                 {
                     this.Name = message.Split(':')[0];
@@ -46,19 +46,12 @@ namespace Server.ServerCommunication
             Close();
         }
 
-        public void Send(string message)
-        {
-            if (socket.Connected)
-            {
-                socket.Send(Encoding.UTF8.GetBytes(message));
-            }
-        }
-
         public  void Close()
         {
-            Send(endMessage); //sends endmessage ("@quit") to client 
+            Send(endMessage + $"{Environment.NewLine}{Environment.NewLine}" + "SERVER: Server was manually closed, you cannot send any more messages"); //sends endmessage ("@quit") to the client/user  
             
-            //recieveThread.Abort(); //abort client thread
+            //abort client thread --> OUTDATED OPTION
+            //recieveThread.Abort(); 
 
             //alternative with task cancelation instead of thread.abort (for NET.Core and NET 5) 
             var source = new CancellationTokenSource();
@@ -66,7 +59,17 @@ namespace Server.ServerCommunication
             cancellationToken.ThrowIfCancellationRequested();
             source.Cancel();
             
-            socket.Disconnect(false); //disconnect
+            //disconnect the socket connection. The bool "false" indicates that the socket instance cannot be reused 
+            socket.Disconnect(false); 
+            
+        }
+
+        public void Send(string message)
+        {
+            if (socket.Connected)
+            {
+                socket.Send(Encoding.UTF8.GetBytes(message));
+            }
         }
 
         

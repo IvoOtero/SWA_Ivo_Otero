@@ -12,34 +12,35 @@
         Title="Toy-App" Height="650" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="271*"/>
+            <RowDefinition Height="272*"/>
+            <RowDefinition Height="91*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
 
-        
-        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="0,40,0,0">
+
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="0,40,833,0" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <Button Content="Overview" Width="100" VerticalAlignment="Center" Margin="0,10,0,10" Command="{Binding SwitchToOverviewViewCommand}"/>
             <Button Content="MyToys" Width="100" VerticalAlignment="Center" Margin="0,10,0,0" Command="{Binding SwitchToMyToysViewCommand}"/>
         </StackPanel>
 
-        <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="3" CornerRadius="35" Background="GhostWhite">
-        <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding CurrentView}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type vm:OverviewViewModel}">
-                    <views:OverviewUserControl/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type vm:MyToysViewModel}">
-                    <views:MyToysUserControl/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
+        <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="3" CornerRadius="35" Background="GhostWhite" Grid.RowSpan="2">
+            <ContentControl Grid.Row="0" Grid.Column="1" Content="{Binding CurrentView}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type vm:OverviewViewModel}">
+                        <views:OverviewUserControl/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:MyToysViewModel}">
+                        <views:MyToysUserControl/>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
         </Border>
 
-        <views:MessageBarUserControl Grid.Column="1" Grid.Row="1"/>
+        <views:MessageBarUserControl Grid.Column="1" Grid.Row="1" Margin="0,272,0,0" Grid.RowSpan="2"/>
 
     </Grid>
 </Window>
