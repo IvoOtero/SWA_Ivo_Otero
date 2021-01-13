@@ -13,7 +13,7 @@ namespace Client
         Socket socket;
         byte[] buffer = new byte[512]; //buffer serves as storage location for data transmitted by TCP
         Action<string> MessageInformer; //informs the server about the text message
-        Action AbortInformer;  //informs the server in case the instance needs to be aborted
+        Action AbortInformer;  //informs the server in case the instance needs to be aborted (e.g connection with server was manually closed)
 
         public ClientCommunication  (string ip, int port, Action<string> messageInformer, Action abortInformer)
         {

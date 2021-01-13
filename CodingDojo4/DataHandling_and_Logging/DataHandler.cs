@@ -4,6 +4,10 @@ using System.IO;
 
 namespace DataHandling_and_Logging
 {
+    //
+    // Handles the log-data from the chat application 
+    // and manages the saving, deleting or moving from files 
+    //
     public class DataHandler
     {
         private const string folder = @"Logs/";

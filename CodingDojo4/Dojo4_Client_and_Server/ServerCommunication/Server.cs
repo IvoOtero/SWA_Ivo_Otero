@@ -41,7 +41,7 @@ namespace Server.ServerCommunication
                 try
                 {
                     //
-                    //try-catch block: if the accepting Thread is not completed, then the program
+                    //if the accepting Thread is not completed, then the program
                     //adds a new ClientHandler to the users list with a new Socket and an Action referencing the method "newMessage"
                     //
                     users.Add(new ClientHandler(socket.Accept(), new Action<string, Socket>(newMessage)));

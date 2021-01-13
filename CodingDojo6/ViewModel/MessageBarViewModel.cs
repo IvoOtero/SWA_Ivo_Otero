@@ -85,7 +85,10 @@ namespace CodingDojo6.ViewModel
         public void RegisterOnMessenger(string message)
         {
             //this.messenger = messenger;
+
+            //MessengerInstance from MVVM ViewModelBase 
             this.MessengerInstance.Register<PropertyChangedMessage<Message>>(this, message, showContent);
+            
         }
        
 
